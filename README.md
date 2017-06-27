@@ -3,7 +3,7 @@ FEEL AT HOME IN BRUSSELS
 For completion of [Udacity's Front-End Web Developer Nanodegree](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001)
 
 #### To use this app:
-- Either clone or download the repo, and open `index.html` or visit the [live site](https://github.io/ThedukeCodes/MapIII)
+- Either clone or download the repo, and open `index.html` or visit the [live site](https://github.io/ThedukeCodes/MapFinal)
 
 -----
 ### Credits:
@@ -16,7 +16,7 @@ Karol, Udacity instructor who helped me throughout this project
 
 **APIs**
 - This app uses the **Google Maps API**. Documentation can be found [here](https://developers.google.com/maps/documentation/)
-- This app uses the **NY TIME*. Documentation can be found [here](https://www.mediawiki.org/wiki/API:Main_page)
+- This app uses the **NY TIME*. Documentation can be found [here](https://developer.nytimes.com/article_search_v2.json#/Console)
 
 **Extra Help**
 - Used instructions for loading Google Maps Javascript API from [Google's documentation](https://developers.google.com/maps/documentation/javascript/tutorial)

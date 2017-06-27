@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Neighborhood Map Project</title>
     <!-- Importing JS libraries -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -9,7 +10,8 @@
 <body>
 
 <div class="container">
-      <div class="listing col-md-4">
+    <aside>
+    <div class="listing col-md-4">
 
         <h1>Feel at home in Brussels</h1>
 
@@ -21,15 +23,15 @@
         <!-- List view showing location names -->
 
         <ul data-bind="foreach: userFilteredLocs">
-            <!--<a href="#" data-bind="click: $parent.removeProduct"> <li data-bind="text: title"></li></a>-->
-             <li data-bind="text: title"></li>
+             <li data-bind="text: title, click: $root.clickMarker"></li>
         </ul>
       </div>
+    </aside>  
 
-
+    <main>
     <div class="col-md-8" id="map">
-
     </div>
+    </main>
 </div>
 
 
@@ -45,21 +47,17 @@
  <!--  Load map  -->
 
  <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCZ_prdP24a5CYX5BIHGpWNDDWj_24l9o&libraries=geometry&v=3&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCZ_prdP24a5CYX5BIHGpWNDDWj_24l9o&libraries=geometry&v=3&callback=initMap" onerror="mapError()">
     </script>
 </body>
 </html>
 
 <!-- // first goal: display a list with location names using Knockout.js (add the map later)
-
 // hard coded Array of location objects
 // https://github.com/udacity/ud864/blob/master/Project_Code_5_BeingStylish.html#L150
-
 // initMap function (add the initMap function later)
 // https://developers.google.com/maps/documentation/javascript/examples/map-simple
-
 // Location constructor similiar to the Cat constructor form the JavaScript Design Patterns course (optional)
-
 // ViewModel constructor
 // The difference between defining the ViewModel as a function expression or defining the viewModel as an object literal
 // https://discussions.udacity.com/t/text-not-updating-with-search-box/182886/6
@@ -69,23 +67,16 @@
 // https://classroom.udacity.com/nanodegrees/nd001/parts/e87c34bf-a9c0-415f-b007-c2c2d7eead73/modules/271165859175461/lessons/3406489055/concepts/34284402380923
 // Adding More Cats video lesson
 // https://classroom.udacity.com/nanodegrees/nd001/parts/e87c34bf-a9c0-415f-b007-c2c2d7eead73/modules/271165859175461/lessons/3406489055/concepts/34648186930923
-
 // Instantiate the ViewModel
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
-
 // Apply the bindings aka activate KO
 // http://knockoutjs.com/documentation/observables.html#mvvm-and-view-models#activating-knockout
-
 // first goal: display a list with location names using Knockout.js (add the map later)
-
 // hard coded Array of location objects
 // https://github.com/udacity/ud864/blob/master/Project_Code_5_BeingStylish.html#L150
-
 // initMap function (add the initMap function later)
 // https://developers.google.com/maps/documentation/javascript/examples/map-simple
-
 // Location constructor similiar to the Cat constructor form the JavaScript Design Patterns course (optional)
-
 // ViewModel constructor
 // The difference between defining the ViewModel as a function expression or defining the viewModel as an object literal
 // https://discussions.udacity.com/t/text-not-updating-with-search-box/182886/6
@@ -95,9 +86,7 @@
 // https://classroom.udacity.com/nanodegrees/nd001/parts/e87c34bf-a9c0-415f-b007-c2c2d7eead73/modules/271165859175461/lessons/3406489055/concepts/34284402380923
 // Adding More Cats video lesson
 // https://classroom.udacity.com/nanodegrees/nd001/parts/e87c34bf-a9c0-415f-b007-c2c2d7eead73/modules/271165859175461/lessons/3406489055/concepts/34648186930923
-
 // Instantiate the ViewModel
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
-
 // Apply the bindings aka activate KO
 // http://knockoutjs.com/documentation/observables.html#mvvm-and-view-models#activating-knockout -->
