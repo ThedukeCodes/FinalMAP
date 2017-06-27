@@ -1,92 +1,84 @@
 <!DOCTYPE html>
-<head>
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Neighborhood Map Project</title>
-    <!-- Importing JS libraries -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet"  href="css/style.css">
-</head>
-<body>
 
-<div class="container">
-    <aside>
-    <div class="listing col-md-4">
 
-        <h1>Feel at home in Brussels</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Neighborhood Map Project</title>
+        <!-- Importing JS libraries -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet"  href="css/style.css">
+    </head>
 
-        <!-- Search engine, filter, input -->
-        <input type="search" data-bind="textInput: userSearch" placeholder="Type your dream location">
 
-        <h3>My favorite places</h3>
-
-        <!-- List view showing location names -->
-
-        <ul data-bind="foreach: userFilteredLocs">
-             <li data-bind="text: title, click: $root.clickMarker"></li>
-        </ul>
-      </div>
-    </aside>  
-
-    <main>
-    <div class="col-md-8" id="map">
+    <body>
+    <div class="container">
+        <aside>
+            <div class="listing col-md-4">
+                <h1>Feel at home in Brussels</h1>
+                <!-- Search engine, filter, input -->
+                <input type="search" data-bind="textInput: userSearch" placeholder="Type your location">
+                <h3>My favorite places</h3>
+                <!-- List view showing location names -->
+                <ul data-bind="foreach: userFilteredLocs">
+                <li data-bind="text: title, click: $root.clickMarker"></li>
+                </ul>
+            </div>
+        </aside>
+        <main>
+            <div class="col-md-8" id="map">
+            </div>
+        </main>
     </div>
-    </main>
-</div>
+   <!--  Importing JS libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="js/model.js"></script>
+    <script src="js/octopus.js"></script>
+    <script src="js/view.js"></script>
+    <!--  Load map  -->
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCZ_prdP24a5CYX5BIHGpWNDDWj_24l9o&libraries=geometry&v=3&callback=initMap" onerror="mapError()"></script>
+    </body>
 
 
-
-<!--  Importing JS libraries -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="js/model.js"></script>
-<script src="js/octopus.js"></script>
-<script src="js/view.js"></script>
-
- <!--  Load map  -->
-
- <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCZ_prdP24a5CYX5BIHGpWNDDWj_24l9o&libraries=geometry&v=3&callback=initMap" onerror="mapError()">
-    </script>
-</body>
 </html>
-
 <!-- // first goal: display a list with location names using Knockout.js (add the map later)
-// hard coded Array of location objects
-// https://github.com/udacity/ud864/blob/master/Project_Code_5_BeingStylish.html#L150
-// initMap function (add the initMap function later)
-// https://developers.google.com/maps/documentation/javascript/examples/map-simple
-// Location constructor similiar to the Cat constructor form the JavaScript Design Patterns course (optional)
-// ViewModel constructor
-// The difference between defining the ViewModel as a function expression or defining the viewModel as an object literal
-// https://discussions.udacity.com/t/text-not-updating-with-search-box/182886/6
-// In the ViewmModel create an observableArray with place objects
-// http://knockoutjs.com/documentation/observables.html#mvvm-and-view-models
-// Separating Out the Model video lesson:
-// https://classroom.udacity.com/nanodegrees/nd001/parts/e87c34bf-a9c0-415f-b007-c2c2d7eead73/modules/271165859175461/lessons/3406489055/concepts/34284402380923
-// Adding More Cats video lesson
-// https://classroom.udacity.com/nanodegrees/nd001/parts/e87c34bf-a9c0-415f-b007-c2c2d7eead73/modules/271165859175461/lessons/3406489055/concepts/34648186930923
-// Instantiate the ViewModel
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
-// Apply the bindings aka activate KO
-// http://knockoutjs.com/documentation/observables.html#mvvm-and-view-models#activating-knockout
-// first goal: display a list with location names using Knockout.js (add the map later)
-// hard coded Array of location objects
-// https://github.com/udacity/ud864/blob/master/Project_Code_5_BeingStylish.html#L150
-// initMap function (add the initMap function later)
-// https://developers.google.com/maps/documentation/javascript/examples/map-simple
-// Location constructor similiar to the Cat constructor form the JavaScript Design Patterns course (optional)
-// ViewModel constructor
-// The difference between defining the ViewModel as a function expression or defining the viewModel as an object literal
-// https://discussions.udacity.com/t/text-not-updating-with-search-box/182886/6
-// In the ViewmModel create an observableArray with place objects
-// http://knockoutjs.com/documentation/observables.html#mvvm-and-view-models
-// Separating Out the Model video lesson:
-// https://classroom.udacity.com/nanodegrees/nd001/parts/e87c34bf-a9c0-415f-b007-c2c2d7eead73/modules/271165859175461/lessons/3406489055/concepts/34284402380923
-// Adding More Cats video lesson
-// https://classroom.udacity.com/nanodegrees/nd001/parts/e87c34bf-a9c0-415f-b007-c2c2d7eead73/modules/271165859175461/lessons/3406489055/concepts/34648186930923
-// Instantiate the ViewModel
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
-// Apply the bindings aka activate KO
-// http://knockoutjs.com/documentation/observables.html#mvvm-and-view-models#activating-knockout -->
+   // hard coded Array of location objects
+   // https://github.com/udacity/ud864/blob/master/Project_Code_5_BeingStylish.html#L150
+   // initMap function (add the initMap function later)
+   // https://developers.google.com/maps/documentation/javascript/examples/map-simple
+   // Location constructor similiar to the Cat constructor form the JavaScript Design Patterns course (optional)
+   // ViewModel constructor
+   // The difference between defining the ViewModel as a function expression or defining the viewModel as an object literal
+   // https://discussions.udacity.com/t/text-not-updating-with-search-box/182886/6
+   // In the ViewmModel create an observableArray with place objects
+   // http://knockoutjs.com/documentation/observables.html#mvvm-and-view-models
+   // Separating Out the Model video lesson:
+   // https://classroom.udacity.com/nanodegrees/nd001/parts/e87c34bf-a9c0-415f-b007-c2c2d7eead73/modules/271165859175461/lessons/3406489055/concepts/34284402380923
+   // Adding More Cats video lesson
+   // https://classroom.udacity.com/nanodegrees/nd001/parts/e87c34bf-a9c0-415f-b007-c2c2d7eead73/modules/271165859175461/lessons/3406489055/concepts/34648186930923
+   // Instantiate the ViewModel
+   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
+   // Apply the bindings aka activate KO
+   // http://knockoutjs.com/documentation/observables.html#mvvm-and-view-models#activating-knockout
+   // first goal: display a list with location names using Knockout.js (add the map later)
+   // hard coded Array of location objects
+   // https://github.com/udacity/ud864/blob/master/Project_Code_5_BeingStylish.html#L150
+   // initMap function (add the initMap function later)
+   // https://developers.google.com/maps/documentation/javascript/examples/map-simple
+   // Location constructor similiar to the Cat constructor form the JavaScript Design Patterns course (optional)
+   // ViewModel constructor
+   // The difference between defining the ViewModel as a function expression or defining the viewModel as an object literal
+   // https://discussions.udacity.com/t/text-not-updating-with-search-box/182886/6
+   // In the ViewmModel create an observableArray with place objects
+   // http://knockoutjs.com/documentation/observables.html#mvvm-and-view-models
+   // Separating Out the Model video lesson:
+   // https://classroom.udacity.com/nanodegrees/nd001/parts/e87c34bf-a9c0-415f-b007-c2c2d7eead73/modules/271165859175461/lessons/3406489055/concepts/34284402380923
+   // Adding More Cats video lesson
+   // https://classroom.udacity.com/nanodegrees/nd001/parts/e87c34bf-a9c0-415f-b007-c2c2d7eead73/modules/271165859175461/lessons/3406489055/concepts/34648186930923
+   // Instantiate the ViewModel
+   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
+   // Apply the bindings aka activate KO
+   // http://knockoutjs.com/documentation/observables.html#mvvm-and-view-models#activating-knockout -->
+

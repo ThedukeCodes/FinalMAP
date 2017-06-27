@@ -3,7 +3,7 @@ FEEL AT HOME IN BRUSSELS
 For completion of [Udacity's Front-End Web Developer Nanodegree](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001)
 
 #### To use this app:
-- Either clone or download the repo, and open `index.html` or visit the [live site](https://github.io/ThedukeCodes/FinalMAP)
+- Either clone or download the repo, and open `index.html` or visit the [live site](https://github.io/ThedukeCodes/MapFinal)
 
 -----
 ### Credits:
