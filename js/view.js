@@ -46,29 +46,39 @@ function initMap() {
 
         // Create an onclick event to open the large infowindow at each marker.
         marker.addListener('click', function() {
-            populateInfoWindow(this, largeInfowindow);
-            this.setIcon(highlightedIcon);
+            
+			for (var j = 0; j < vm.bruxellesLocs().length; j++) {
+			  vm.bruxellesLocs()[j].marker.setIcon(defaultIcon);
+			}
+			this.setIcon(highlightedIcon);
+			populateInfoWindow(this, largeInfowindow);
 
         });
+		
         // Two event listeners - one for mouseover, one for mouseout,
         // to change the colors back and forth.
         marker.addListener('mouseover', function() {
-            this.setIcon(highlightedIcon);
+			this.setIcon(highlightedIcon);
         });
         marker.addListener('mouseout', function() {
             var myElem = document.getElementById('pano');
-            if (myElem === null)
-                this.setIcon(defaultIcon);
-
+            if (myElem === null){
+				this.setIcon(defaultIcon);
+			}
+			else if(this.title != document.getElementById("mTitle").innerHTML){
+				this.setIcon(defaultIcon);
+			}
+			else{
+				this.setIcon(highlightedIcon);
+			}
         });
 
     }
-
-
+	
     function populateInfoWindow(marker, infowindow) {
         // Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker != marker) {
-            // Clear the infowindow content to give the streetview time to load.
+			// Clear the infowindow content to give the streetview time to load.
             infowindow.setContent('');
             infowindow.marker = marker;
             // Make sure the marker property is cleared if the infowindow is closed.
@@ -83,23 +93,25 @@ function initMap() {
             // GOOGLE STREET: In case the status is OK, which means the pano was found, compute the
             // position of the streetview image, then calculate the heading, then get a
             // panorama from that and set the options
+			 var panorama , panoramaOptions ,flag=0;
             function getStreetView(data, status) {
                 if (status == google.maps.StreetViewStatus.OK) {
                     var nearStreetViewLocation = data.location.latLng;
                     var heading = google.maps.geometry.spherical.computeHeading(
                         nearStreetViewLocation, marker.position);
-                    infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div><div id="NYCarticle"></div>');
-                    var panoramaOptions = {
+                    infowindow.setContent('<div id="mTitle">' + marker.title + '</div><div id="pano"></div><div id="NYCarticle"></div>');
+                    panoramaOptions = {
                         position: nearStreetViewLocation,
                         pov: {
                             heading: heading,
                             pitch: 30
                         }
                     };
-                    var panorama = new google.maps.StreetViewPanorama(
+                    panorama = new google.maps.StreetViewPanorama(
                         document.getElementById('pano'), panoramaOptions);
+					flag = 1;
                 } else {
-                    var geocoder = new google.maps.Geocoder;
+                    /*var geocoder = new google.maps.Geocoder;
                     var latlng = {
                         lat: parseFloat(marker.lat_val),
                         lng: parseFloat(marker.long_val)
@@ -114,7 +126,11 @@ function initMap() {
                         } else {
                             window.alert('Geocoder failed due to: ' + status);
                         }
-                    });
+                    });*/
+					
+					infowindow.setContent('<div id="mTitle"> ' + marker.title + '</div>' +
+						'<div id="pano" style="height:auto;"><b>No Street View Found</b></div><div id="NYCarticle"></div>');
+					
 
                 }
             }
@@ -122,10 +138,11 @@ function initMap() {
             // 50 meters of the markers position
             streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
             infowindow.open(map, marker);
+			
         }
         // NY TIMES API
         var nytimesUrl = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + marker.title + '&sort=newest&api-key=4160758793fe4d548e1be3245a975b68';
-        $.getJSON(nytimesUrl, function(data) {
+		$.getJSON(nytimesUrl, function(data) {
             var $nytHeaderElem = $('#nytimes-header');
             var $nytElem = $('#nytimes-articles');
             var $NYCarticle = $('#NYCarticle');
@@ -134,7 +151,8 @@ function initMap() {
             $nytHeaderElem.text('New York Times Articles About ' + marker.title);
 
             articles = data.response.docs;
-            var article_content = "";
+			
+			var article_content = "";	
             for (var i = 0; i < articles.length; i++) {
                 if (i == 0)
                     article_content += "<div>NY Time articles</div>";
@@ -147,8 +165,29 @@ function initMap() {
             }
             if (article_content == "")
                 article_content = "New York Times Articles <br>No article found about " + marker.title + "";
-            $NYCarticle.html(article_content);
-        });
+			
+			
+			if(flag == 1) {
+				infowindow.setContent('<div id="mTitle">' + marker.title + '</div><div id="pano"></div><div id="NYCarticle"> ' + article_content + ' </div>');
+				panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+			}
+			else{
+				infowindow.setContent('<div id="mTitle">' + marker.title + '</div><div id="pano" style="height:auto;"><b>No Street View Found</b></div><div id="NYCarticle"> ' + article_content + ' </div>');
+			}
+			
+			//$NYCarticle.html(article_content);
+        }).fail(function(d) {
+				var article_content =" New York Times Articles Could Not Be Loaded ";
+				if(flag == 1) {
+					infowindow.setContent('<div id="mTitle">' + marker.title + '</div><div id="pano"></div><div id="NYCarticle"> ' + article_content + ' </div>');
+					panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+				}
+				else{
+					infowindow.setContent('<div id="mTitle">' + marker.title + '</div><div id="pano" style="height:auto;"><b>No Street View Found</b></div><div id="NYCarticle"> ' + article_content + ' </div>');
+				}
+				
+				//$NYCarticle.html(article_content);
+           });
     }
     // This function takes in a COLOR, and then creates a new marker
     // icon of that color. The icon will be 21 px wide by 34 high, have an origin

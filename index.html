@@ -13,22 +13,29 @@
 
     <body>
     <div class="container">
+
+    <div class="row">
         <aside>
-            <div class="listing col-md-4">
+            <div class="listing col-md-2">
                 <h1>Feel at home in Brussels</h1>
                 <!-- Search engine, filter, input -->
                 <input type="search" data-bind="textInput: userSearch" placeholder="Type your location">
                 <h3>My favorite places</h3>
                 <!-- List view showing location names -->
                 <ul data-bind="foreach: userFilteredLocs">
-                <li data-bind="text: title, click: $root.clickMarker"></li>
+                <li class="item" data-bind="text: title, click: $root.clickMarker"></li>
                 </ul>
             </div>
         </aside>
+    </div>
+        
+    <div class="row>">    
         <main>
-            <div class="col-md-8" id="map">
+            <div class="col-md-2" id="map">
             </div>
         </main>
+    </div>
+
     </div>
    <!--  Importing JS libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
