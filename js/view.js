@@ -111,27 +111,9 @@ function initMap() {
                         document.getElementById('pano'), panoramaOptions);
 					flag = 1;
                 } else {
-                    /*var geocoder = new google.maps.Geocoder;
-                    var latlng = {
-                        lat: parseFloat(marker.lat_val),
-                        lng: parseFloat(marker.long_val)
-                    };
-                    geocoder.geocode({
-                        'location': latlng
-                    }, function(results, status) {
-                        if (status === 'OK') {
-                            if (results[1]) {
-                                infowindow.setContent('<div>' + marker.title + '</div>' + '<div id="pano" style="height:auto;">' + results[0].formatted_address + '</div>');
-                            }
-                        } else {
-                            window.alert('Geocoder failed due to: ' + status);
-                        }
-                    });*/
 					
 					infowindow.setContent('<div id="mTitle"> ' + marker.title + '</div>' +
 						'<div id="pano" style="height:auto;"><b>No Street View Found</b></div><div id="NYCarticle"></div>');
-					
-
                 }
             }
             // Use streetview service to get the closest streetview image within
@@ -175,7 +157,6 @@ function initMap() {
 				infowindow.setContent('<div id="mTitle">' + marker.title + '</div><div id="pano" style="height:auto;"><b>No Street View Found</b></div><div id="NYCarticle"> ' + article_content + ' </div>');
 			}
 			
-			//$NYCarticle.html(article_content);
         }).fail(function(d) {
 				var article_content =" New York Times Articles Could Not Be Loaded ";
 				if(flag == 1) {
@@ -186,7 +167,6 @@ function initMap() {
 					infowindow.setContent('<div id="mTitle">' + marker.title + '</div><div id="pano" style="height:auto;"><b>No Street View Found</b></div><div id="NYCarticle"> ' + article_content + ' </div>');
 				}
 				
-				//$NYCarticle.html(article_content);
            });
     }
     // This function takes in a COLOR, and then creates a new marker
