@@ -110,22 +110,6 @@ function initMap() {
                         document.getElementById('pano'), panoramaOptions);
                     flag = 1;
                 } else {
-                    /*var geocoder = new google.maps.Geocoder;
-                    var latlng = {
-                    lat: parseFloat(marker.lat_val),
-                    lng: parseFloat(marker.long_val)
-                    };
-                    geocoder.geocode({
-                    'location': latlng
-                    }, function(results, status) {
-                    if (status === 'OK') {
-                    if (results[1]) {
-                    infowindow.setContent('<div>' + marker.title + '</div>' + '<div id="pano" style="height:auto;">' + results[0].formatted_address + '</div>');
-                    }
-                    } else {
-                    window.alert('Geocoder failed due to: ' + status);
-                    }
-                    });*/
 
                     infowindow.setContent('<div id="mTitle" > ' + marker.title + '</div>' +
                         '<div id="pano" style="height:auto;"><b>No Street View Found</b></div><div id="NYCarticle"></div>');
@@ -139,38 +123,44 @@ function initMap() {
         }
         // NY TIMES API
         var nytimesUrl = 'http://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + marker.title + '&sort=newest&api-key=4160758793fe4d548e1be3245a975b68';
-        $.getJSON(nytimesUrl, function(data) {
 
-            articles = data.response.docs;
+        $.ajax({
+            url: nytimesUrl,
+            dataType: 'json',
+            success: function(data) {
 
-            var article_content = "";
-            for (var i = 0; i < articles.length; i++) {
-                if (i == 0)
-                    article_content += "<div>NY Time articles</div>";
-                var article = articles[i];
-                if (article.snippet) {
-                    article_content += '<div id="article"><li id="article"><a href="' + article.web_url + '">' + article.headline.main + '</a><p>' + article.snippet + '</p></li></div>';
-                    if (i == 3)
-                        break;
+                articles = data.response.docs;
+
+                var article_content = "";
+                for (var i = 0; i < articles.length; i++) {
+                    if (i == 0)
+                        article_content += "<div>NY Time articles</div>";
+                    var article = articles[i];
+                    if (article.snippet) {
+                        article_content += '<div id="article"><li id="article"><a href="' + article.web_url + '">' + article.headline.main + '</a><p>' + article.snippet + '</p></li></div>';
+                        if (i == 3)
+                            break;
+                    }
                 }
-            }
-            if (article_content == "")
-                article_content = "New York Times Articles <br>No article found about " + marker.title + "";
-            if (flag == 1) {
-                infowindow.setContent('<div id="mTitle" >' + marker.title + '</div><div id="pano"></div><div id="NYCarticle"> ' + article_content + ' </div>');
-                panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
-            } else {
-                infowindow.setContent('<div id="mTitle" >' + marker.title + '</div><div id="pano" style="height:auto;"><b>No Street View Found</b></div><div id="NYCarticle"> ' + article_content + ' </div>');
-            }
+                if (article_content == "")
+                    article_content = "New York Times Articles <br>No article found about " + marker.title + "";
+                if (flag == 1) {
+                    infowindow.setContent('<div id="mTitle" >' + marker.title + '</div><div id="pano"></div><div id="NYCarticle"> ' + article_content + ' </div>');
+                    panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+                } else {
+                    infowindow.setContent('<div id="mTitle" >' + marker.title + '</div><div id="pano" style="height:auto;"><b>No Street View Found</b></div><div id="NYCarticle"> ' + article_content + ' </div>');
+                }
 
 
-        }).fail(function(d) {
-            var article_content = " New York Times Articles Could Not Be Loaded ";
-            if (flag == 1) {
-                infowindow.setContent('<div id="mTitle" >' + marker.title + '</div><div id="pano"></div><div id="NYCarticle"> ' + article_content + ' </div>');
-                panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
-            } else {
-                infowindow.setContent('<div id="mTitle" >' + marker.title + '</div><div id="pano" style="height:auto;"><b>No Street View Found</b></div><div id="NYCarticle"> ' + article_content + ' </div>');
+            },
+            error: function(data) {
+                var article_content = " New York Times Articles Could Not Be Loaded ";
+                if (flag == 1) {
+                    infowindow.setContent('<div id="mTitle" >' + marker.title + '</div><div id="pano"></div><div id="NYCarticle"> ' + article_content + ' </div>');
+                    panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+                } else {
+                    infowindow.setContent('<div id="mTitle" >' + marker.title + '</div><div id="pano" style="height:auto;"><b>No Street View Found</b></div><div id="NYCarticle"> ' + article_content + ' </div>');
+                }
             }
         });
     }
